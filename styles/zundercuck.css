@@ -1,10 +1,10 @@
-.worldbuilding.sheet .window-content {
+.zundercuck.sheet .window-content {
     padding: 5px;
     overflow-y: hidden;
 }
 
 /* Sheet Header */
-.worldbuilding.sheet .sheet-header {
+.zundercuck.sheet .sheet-header {
     overflow: hidden;
     display: flex;
     flex-direction: row;
@@ -14,108 +14,108 @@
     margin-bottom: 10px;
 }
 
-.worldbuilding.sheet .profile-img {
+.zundercuck.sheet .profile-img {
     flex: 0 0 100px;
     height: 100px;
     margin-right: 10px;
 }
 
-.worldbuilding.sheet .header-fields {
+.zundercuck.sheet .header-fields {
     flex: 1;
     height: 100px;
 }
 
-.worldbuilding.sheet .charname {
+.zundercuck.sheet .charname {
     height: 60px;
     padding: 5px;
     margin: 0;
     border-bottom: 0;
 }
-.worldbuilding.sheet .charname input {
+.zundercuck.sheet .charname input {
     width: 100%;
     height: 100%;
     margin: 0;
 }
 
-.worldbuilding.sheet .resource {
+.zundercuck.sheet .resource {
     height: 40px;
     width: 50%;
     padding: 3px 10px;
     float: left;
 }
-.worldbuilding.sheet .resource input {
+.zundercuck.sheet .resource input {
     width: 40px;
     height: 28px;
 }
 
-.worldbuilding.sheet .checkresource {
+.zundercuck.sheet .checkresource {
     height: 40px;
     width: 50%;
     padding: 3px 10px;
     float: left;
 }
-.worldbuilding.sheet .checkresource input {
+.zundercuck.sheet .checkresource input {
     width: 25px;
     height: 15px;
     margin: 10px;
 }
 
 /* Navigation Tabs */
-.worldbuilding.sheet .tabs {
+.zundercuck.sheet .tabs {
     flex: 0 0 40px;
     border-top: 1px solid #AAA;
     border-bottom: 1px solid #AAA;
 }
 
-.worldbuilding.sheet .tabs .item {
+.zundercuck.sheet .tabs .item {
     line-height: 40px;
     font-weight: bold;
 }
 
-.worldbuilding.sheet .tabs .item.active {
+.zundercuck.sheet .tabs .item.active {
     text-decoration: underline;
     text-shadow: none;
 }
 
 /* Content Tabs */
-.worldbuilding.sheet .sheet-body {
+.zundercuck.sheet .sheet-body {
     height: calc(100% - 160px);
 }
-.worldbuilding.sheet .sheet-body .tab {
+.zundercuck.sheet .sheet-body .tab {
     height: 100%;
 }
-.worldbuilding.sheet .sheet-body .editor {
+.zundercuck.sheet .sheet-body .editor {
     width: 100%;
     height: 100%;
 }
 
 
 /* Items */
-.worldbuilding.sheet .items-list {
+.zundercuck.sheet .items-list {
     list-style: none;
     margin: 7px 0;
     padding: 0;
     overflow-y: auto;
 }
-.worldbuilding.sheet .items-list .item {
+.zundercuck.sheet .items-list .item {
     height: 30px;
     line-height: 24px;
     padding: 3px 0;
     border-bottom: 1px solid #BBB;
 }
-.worldbuilding.sheet .items-list .item img {
+.zundercuck.sheet .items-list .item img {
     flex: 0 0 24px;
     margin-right: 5px;
 }
-.worldbuilding.sheet .items-list .item-name {
+.zundercuck.sheet .items-list .item-name {
     margin: 0;
 }
-.worldbuilding.sheet .items-list .item-controls {
+.zundercuck.sheet .items-list .item-controls {
     flex: 0 0 54px;
 }
 
 /* Attributes */
-.worldbuilding.sheet .attributes-header { 
+.zundercuck.sheet .attributes-header { 
     padding: 5px;
     margin: 5px 0;
     background: rgba(0, 0, 0, 0.05);
@@ -124,20 +124,20 @@
     text-align: center;
     font-weight: bold;
 }
-.worldbuilding.sheet .attribute-label { 
+.zundercuck.sheet .attribute-label { 
     flex: 1.5;
 }
-.worldbuilding.sheet .attribute-control { 
+.zundercuck.sheet .attribute-control { 
     flex: 0 0 20px;
 }
 
-.worldbuilding.sheet .attributes-list {
+.zundercuck.sheet .attributes-list {
     list-style: none;
     margin: 0;
     padding: 0;
 }
 
-.worldbuilding.sheet .attributes-list li > * {
+.zundercuck.sheet .attributes-list li > * {
     margin: 0 3px;
     height: 28px;
     line-height: 24px;
@@ -147,10 +147,10 @@
     border-bottom: 1px solid #AAA;
 }
 
-.worldbuilding.sheet .attribute-value.checkbox {
+.zundercuck.sheet .attribute-value.checkbox {
     text-align: center;
 }
 
-.worldbuilding.sheet .attributes-list li a.attribute-control {
+.zundercuck.sheet .attributes-list li a.attribute-control {
     border: none;
 }

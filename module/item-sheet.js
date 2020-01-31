@@ -18,8 +18,8 @@ export class ZunItemSheet extends ItemSheet {
    */
 	static get defaultOptions() {
 	  return mergeObject(super.defaultOptions, {
-			classes: ["worldbuilding", "sheet", "item"],
-			template: "systems/worldbuilding/templates/item-sheet.html",
+			classes: ["zundercuck", "sheet", "item"],
+			template: "systems/zundercuck/templates/item-sheet.html",
 			width: 520,
 			height: 480,
 		});
