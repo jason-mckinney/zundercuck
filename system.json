@@ -1,0 +1,17 @@
+{
+  "name": "zundercuck",
+  "title": "Zundercuck!",
+  "description": "The best ttrpg system in the world.",
+  "version": "0.1.0",
+  "minimumCoreVersion": "0.4.4",
+  "templateVersion": 2,
+  "author": "jmckinney",
+  "esmodules": ["module/zundercuck.js"],
+  "styles": ["styles/zundercuck.css"],
+  "packs": [],
+  "initiative": "1d4",
+  "gridDistance": 5,
+  "gridUnits": "ft",
+  "primaryTokenAttribute": "hitpoints",
+  "secondaryTokenAttribute": "herodice"
+}
