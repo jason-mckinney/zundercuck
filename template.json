@@ -1,47 +1,217 @@
 {
-"Actor": {
-  "types": ["character", "creature"],
-  "templates": {
-    "common": {
-      "health": {
-        "value": 1,
-        "min": 0,
-        "max": 1
-      },
-      "armor": {
-        "value": 0
+  "Actor": {
+    "types": [
+      "character",
+      "creature"
+    ],
+    "templates": {
+      "common": {
+        "health": {
+          "value": 1,
+          "min": 0,
+          "max": 1
+        },
+        "armor": {
+          "value": 0
+        }
       }
+    },
+    "character": {
+      "templates": [
+        "common"
+      ],
+      "biography": "",
+      "health": {
+        "value": 20,
+        "min": 0,
+        "max": 20
+      },
+      "herodice": {
+        "value": 3,
+        "min": 0,
+        "max": 3
+      },
+      "coin": {
+        "value": 0
+      },
+      "attributes": {
+        "deception": {
+          "name": "deception",
+          "label": "deception",
+          "formula": "$deception",
+          "min": 0,
+          "dtype": "Number",
+          "value": 0
+        },
+        "diplomacy": {
+          "name": "diplomacy",
+          "label": "diplomacy",
+          "formula": "$diplomacy",
+          "min": 0,
+          "dtype": "Number",
+          "value": 0
+        },
+        "empathy": {
+          "name": "empathy",
+          "label": "empathy",
+          "formula": "$empathy",
+          "min": 0,
+          "dtype": "Number",
+          "value": 0
+        },
+        "finesse": {
+          "name": "finesse",
+          "label": "finesse",
+          "formula": "$finesse",
+          "min": 0,
+          "dtype": "Number",
+          "value": 0
+        },
+        "firstaid": {
+          "name": "firstaid",
+          "label": "firstaid",
+          "formula": "$firstaid",
+          "min": 0,
+          "dtype": "Number",
+          "value": 0
+        },
+        "fortitude": {
+          "name": "fortitude",
+          "label": "fortitude",
+          "formula": "$fortitude",
+          "min": 0,
+          "dtype": "Number",
+          "value": 0
+        },
+        "investigate": {
+          "name": "investigate",
+          "label": "investigate",
+          "formula": "$investigate",
+          "min": 0,
+          "dtype": "Number",
+          "value": 0
+        },
+        "meleeweapons": {
+          "name": "meleeweapons",
+          "label": "meleeweapons",
+          "formula": "$meleeweapons",
+          "min": 0,
+          "dtype": "Number",
+          "value": 0
+        },
+        "notice": {
+          "name": "notice",
+          "label": "notice",
+          "formula": "$notice",
+          "min": 0,
+          "dtype": "Number",
+          "value": 0
+        },
+        "power": {
+          "name": "power",
+          "label": "power",
+          "formula": "$power",
+          "min": 0,
+          "dtype": "Number",
+          "value": 0
+        },
+        "provoke": {
+          "name": "provoke",
+          "label": "provoke",
+          "formula": "$provoke",
+          "min": 0,
+          "dtype": "Number",
+          "value": 0
+        },
+        "reflex": {
+          "name": "reflex",
+          "label": "reflex",
+          "formula": "$reflex",
+          "min": 0,
+          "dtype": "Number",
+          "value": 0
+        },
+        "ride": {
+          "name": "ride",
+          "label": "ride",
+          "formula": "$ride",
+          "min": 0,
+          "dtype": "Number",
+          "value": 0
+        },
+        "shields": {
+          "name": "shields",
+          "label": "shields",
+          "formula": "$shields",
+          "min": 0,
+          "dtype": "Number",
+          "value": 0
+        },
+        "shoot": {
+          "name": "shoot",
+          "label": "shoot",
+          "formula": "$shoot",
+          "min": 0,
+          "dtype": "Number",
+          "value": 0
+        },
+        "sneak": {
+          "name": "sneak",
+          "label": "sneak",
+          "formula": "$sneak",
+          "min": 0,
+          "dtype": "Number",
+          "value": 0
+        },
+        "survival": {
+          "name": "survival",
+          "label": "survival",
+          "formula": "$survival",
+          "min": 0,
+          "dtype": "Number",
+          "value": 0
+        },
+        "thievery": {
+          "name": "thievery",
+          "label": "thievery",
+          "formula": "$thievery",
+          "min": 0,
+          "dtype": "Number",
+          "value": 0
+        },
+        "throw": {
+          "name": "throw",
+          "label": "throw",
+          "formula": "$throw",
+          "min": 0,
+          "dtype": "Number",
+          "value": 0
+        },
+        "will": {
+          "name": "will",
+          "label": "will",
+          "formula": "$will",
+          "min": 0,
+          "dtype": "Number",
+          "value": 0
+        }
+      }
+    },
+    "creature": {
+      "templates": [
+        "common"
+      ],
+      "attributes": {}
     }
   },
-  "character": {
-    "templates": ["common"],
-    "biography": "",
-    "health": {
-      "value": 20,
-      "min": 0,
-      "max": 20
-    },
-    "herodice": {
-      "value": 3,
-      "min": 0,
-      "max": 3
-    },
-    "coin": {
-      "value": 0
-    },
-    "attributes": {}
-  },
-  "creature": {
-    "templates": ["common"],
-    "attributes": {}
+  "Item": {
+    "types": [
+      "item"
+    ],
+    "item": {
+      "description": "",
+      "equipped": false,
+      "attributes": {}
+    }
   }
-},
-"Item": {
-  "types": ["item"],
-  "item": {
-    "description": "",
-    "equipped": false,
-    "attributes": {}
-  }
-}
 }
