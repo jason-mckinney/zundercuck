@@ -75,7 +75,7 @@ Hooks.on("chatMessage", (chatlog, message) => {
       );
       
       targets.forEach(async (target) => {
-         target.actor.update({"data.health.value": target.actor.data.data.health.value - roll.total});
+         target.actor.update({"data.health.value": target.actor.data.data.health.value - Math.max(0, roll.total - target.actor.data.data.armor.value)});
       });
 
       ChatMessage.create(chatData);
@@ -95,7 +95,7 @@ Hooks.on("chatMessage", (chatlog, message) => {
       const token = canvas.tokens.get(ChatMessage.getSpeaker().token);
       if (!token) { break; }
 
-      var attr = message.replace(/\/i(?:nitiative)?/, "").trim();
+      let attr = message.replace(/\/i(?:nitiative)?/, "").trim();
       attr = getAttributeValue(token.actor, attr);
       
       game.combat.rollInitiative(game.combat.getCombatantByToken(token.id)._id, CONFIG.initiative.formula + "+" + attr);
@@ -111,7 +111,7 @@ Hooks.on("chatMessage", (chatlog, message) => {
   let [command, m] = parse(message);
   switch (command) {
     case "roll": case "gmroll": case "blindroll": case "selfroll":
-      var formula = message.replace(/\/r(?:oll)?|\/gmr(?:oll)|\/b(?:lind)?r(?:oll)?|\/s(?:elf)?r(?:oll)?/, "").trim();
+      let formula = message.replace(/\/r(?:oll)?|\/gmr(?:oll)|\/b(?:lind)?r(?:oll)?|\/s(?:elf)?r(?:oll)?/, "").trim();
       
       zundercuckRoll(formula, command);
       return false;
@@ -125,14 +125,16 @@ function getAttributeValue(actor, attribute) {
   return attr ? attr.value : 0;
 }
 
-function zundercuckRoll (formula, {rollMode="roll", chatData={}, display=true}={}) {
+function zundercuckRoll (formula, {rollMode="roll", chatData={}, display=true, explode=true}={}) {
   const speaker = ChatMessage.getSpeaker();
   const actor = game.actors.get(speaker.actor);
   const token = canvas.tokens.get(speaker.token);
   const character = game.user.character;
+  let isHard = false;
 
-  var match = formula.match(/\d*d\d+h/g);
+  let match = formula.match(/\d*d\d+h/g);
   if (match) {
+    isHard = true;
     match.forEach((m) => {
       const groups = /(\d*)d(\d+)h/.exec(m);
       const left = groups[1]>1 ? (groups[1]-1 + "" + "d" + groups[2] + "+") : "";
@@ -175,6 +177,18 @@ function zundercuckRoll (formula, {rollMode="roll", chatData={}, display=true}={
     });
   }
   
+  if (explode && !isHard) {
+    const regex = /(?!\d*d\d+[a-zA-Z])\d*d(\d+)/;
+    
+    match = formula.match(/(?!\d*d\d+[a-zA-Z])\d*d(\d+)/g);
+    if (match) {
+      match.forEach((part) => {
+        const groups = regex.exec(part);5
+        formula = formula.replace(regex, groups[0]+"x"+groups[1]);
+      });
+    }
+  }
+
   const roll = new Roll(formula, {});
   roll.roll();
   if (display) {
