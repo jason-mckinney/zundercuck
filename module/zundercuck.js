@@ -26,8 +26,59 @@ Hooks.once("init", async function() {
   
 });
 
+//effort command
+Hooks.on("chatMessage", (chatlog, message) => {
+  let [command, m] = parse(message);
+
+  switch (command) {
+    case "effort":
+      const targets = Array.from(game.user.targets);
+      const formula = message.replace(/\/e(?:ffort)?/, "").trim();
+      
+      const roll = zundercuckRoll(formula, {rollmode: "roll", display: false});
+      let end = "";
+
+      if (targets.length > 2) {
+        end = "and " 
+              + targets.length - 1 
+              + "other target" 
+              + targets.length > 2 ? "s" : "";
+      }
+
+      const total = targets.length > 0 ? canvas.tokens.get(ChatMessage.getSpeaker().token).actor.name 
+                                + " deals "
+                                + roll.result
+                                + " effort to "
+                                + targets[0].name
+                                + " "
+                                + end
+                        : roll.result;
+
+      const chatData = {
+        content: "<div class=\"dice-roll\"><div class=\"dice-result\"><div class=\"dice-formula\">"
+                 + formula 
+                 + "</div><h4"
+                 + (targets.length > 0 ? " style=\"font-size: 16px;\"" : "")
+                 + " class=\"dice-total\">"
+                 + total
+                 + "</h4></div></div>", 
+        type: CONST.CHAT_MESSAGE_TYPES.OTHER
+      };
+
+      roll.toMessage(chatData, {rollMode: "roll", create:true});
+
+      // targets.forEach((target) => {
+
+      // });
+
+      return false;
+  }
+
+  return true;
+});
+
 //initiative command
-Hooks.on("chatMessage", (chatlog, message, chatData) => {
+Hooks.on("chatMessage", (chatlog, message) => {
   let [command, m] = parse(message);
 
   switch (command) {
@@ -65,7 +116,7 @@ function getAttributeValue(actor, attribute) {
   return attr ? attr.value : 0;
 }
 
-function zundercuckRoll (formula, rollMode = "roll") {
+function zundercuckRoll (formula, {rollMode="roll", chatData={}, display=true}={}) {
   const speaker = ChatMessage.getSpeaker();
   const actor = game.actors.get(speaker.actor);
   const token = canvas.tokens.get(speaker.token);
@@ -117,11 +168,14 @@ function zundercuckRoll (formula, rollMode = "roll") {
   
   const roll = new Roll(formula, {});
   roll.roll();
-  roll.toMessage({}, {rollMode:rollMode, create:true});
+  if (display) {
+    roll.toMessage({chatData}, {rollMode:rollMode, create:true});
+  }
 
   if (!actor && formula.includes('@')) {
     ui.notifications.warn('A token attribute was specified in your roll, but no token was selected.');
   }
+  return roll;
 }
 
 function parse(message) {
@@ -133,6 +187,7 @@ function parse(message) {
   const br = '^(\\/b(?:lind)?r(?:oll)? )';  // Blind rolls, support /br or /blindroll
   const sr = '^(\\/s(?:elf)?r(?:oll)? )';   // Self rolls, support /sr or /sroll
   const initiative = '^(\\/i(?:nitiative)? )';
+  const effort = '^(\\/e(?:ffort)? )';
   const any = '([^]*)';                     // Any character, including new lines
   const word = '\\S+';
 
@@ -142,6 +197,7 @@ function parse(message) {
     "gmroll": new RegExp(gm+formula, 'i'),
     "blindroll": new RegExp(br+formula, 'i'),
     "selfroll": new RegExp(sr+formula, 'i'),
+    "effort": new RegExp(effort+formula, 'i'),
     "initiative": new RegExp(initiative+word+'$', 'i'),
     "ic": new RegExp('^(\/ic )'+any, 'i'),
     "ooc": new RegExp('^(\/ooc )'+any, 'i'),

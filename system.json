@@ -19,5 +19,5 @@
   "secondaryTokenAttribute": "herodice",
   "url": "https://github.com/jason-mckinney/zundercuck",
   "manifest": "https://raw.githubusercontent.com/jason-mckinney/zundercuck/master/system.json",
-  "download": "https://github.com/jason-mckinney/zundercuck/releases/download/0.1.1/zundercuck-0.1.1.zip"
+  "download": "https://github.com/jason-mckinney/zundercuck/releases/download/0.1.2-SNAPSHOT/zundercuck-0.1.2-SNAPSHOT.zip"
 }
