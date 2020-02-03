@@ -35,41 +35,45 @@ Hooks.on("chatMessage", (chatlog, message) => {
       const targets = Array.from(game.user.targets);
       const formula = message.replace(/\/e(?:ffort)?/, "").trim();
       
-      const roll = zundercuckRoll(formula, {rollmode: "roll", display: false});
+      const roll = zundercuckRoll(formula, {rollmode: "roll", display: true});
       let end = "";
 
-      if (targets.length > 2) {
-        end = "and " 
-              + targets.length - 1 
-              + "other target" 
-              + targets.length > 2 ? "s" : "";
+      if (targets.length > 1) {
+        end = " and " 
+              + (targets.length - 1)
+              + " other target" 
+              + (targets.length > 2 ? "s" : "");
+      } else if (targets.length < 1) {
+        return false;
       }
 
-      const total = targets.length > 0 ? canvas.tokens.get(ChatMessage.getSpeaker().token).actor.name 
-                                + " deals "
-                                + roll.result
-                                + " effort to "
-                                + targets[0].name
-                                + " "
-                                + end
-                        : roll.result;
+      const total = canvas.tokens.get(ChatMessage.getSpeaker().token).actor.name 
+                    + " deals "
+                    + roll.total
+                    + " effort to "
+                    + targets[0].name
+                    + end;
+                        
 
-      const chatData = {
-        content: "<div class=\"dice-roll\"><div class=\"dice-result\"><div class=\"dice-formula\">"
-                 + formula 
-                 + "</div><h4"
-                 + (targets.length > 0 ? " style=\"font-size: 16px;\"" : "")
-                 + " class=\"dice-total\">"
-                 + total
-                 + "</h4></div></div>", 
-        type: CONST.CHAT_MESSAGE_TYPES.OTHER
-      };
+      const chatData = mergeObject(
+        {
+          content: "<div class=\"dice-roll\">"
+                  + "<h4 style=\"font-size: 16px; font-weight: bold\" class=\"dice-formula\">"
+                  + total
+                  + "</h4></div></div>"
+        }, 
+        {
+          user: game.user._id,
+          sound: CONFIG.sounds.dice,
+          type: CONST.CHAT_MESSAGE_TYPES.OTHER
+        }
+      );
+      
+      targets.forEach(async (target) => {
+         target.actor.update({"data.health.value": target.actor.data.data.health.value - roll.total});
+      });
 
-      roll.toMessage(chatData, {rollMode: "roll", create:true});
-
-      // targets.forEach((target) => {
-
-      // });
+      ChatMessage.create(chatData);
 
       return false;
   }

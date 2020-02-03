@@ -2,7 +2,7 @@
   "name": "zundercuck",
   "title": "Zundercuck!",
   "description": "The best ttrpg system in the world.",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "minimumCoreVersion": "0.4.4",
   "templateVersion": 2,
   "author": "jmckinney",
@@ -19,5 +19,5 @@
   "secondaryTokenAttribute": "herodice",
   "url": "https://github.com/jason-mckinney/zundercuck",
   "manifest": "https://raw.githubusercontent.com/jason-mckinney/zundercuck/master/system.json",
-  "download": "https://github.com/jason-mckinney/zundercuck/releases/download/0.1.2-SNAPSHOT/zundercuck-0.1.2-SNAPSHOT.zip"
+  "download": "https://github.com/jason-mckinney/zundercuck/releases/download/0.1.2/zundercuck-0.1.2.zip"
 }
