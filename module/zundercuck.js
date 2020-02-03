@@ -1,6 +1,7 @@
 // Import Modules
 import { ZunItemSheet } from "./item-sheet.js";
 import { ZunActorSheet } from "./actor-sheet.js";
+import { measureDistance } from "./canvas.js";
 
 /* -------------------------------------------- */
 /*  Foundry VTT Initialization                  */
@@ -24,6 +25,10 @@ Hooks.once("init", async function() {
   Items.unregisterSheet("core", ItemSheet);
   Items.registerSheet("zundercuck", ZunItemSheet, {makeDefault: true});
   
+});
+
+Hooks.on("canvasInit", function() {
+  SquareGrid.prototype.measureDistance = measureDistance;
 });
 
 //effort command
