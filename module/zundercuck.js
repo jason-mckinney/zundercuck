@@ -24,7 +24,15 @@ Hooks.once("init", async function() {
   Actors.registerSheet("zundercuck", ZunActorSheet, { makeDefault: true });
   Items.unregisterSheet("core", ItemSheet);
   Items.registerSheet("zundercuck", ZunItemSheet, {makeDefault: true});
-  
+
+  game.settings.register("zundercuck", "explodingDice", {
+		name: "Exploding dice as default",
+		hint: "Replaces all normal/easy dice rolls with exploding dice unless #noexplode or #ne are specified in the roll.",
+		scope: "world",
+		config: true,
+		default: true,
+		type: Boolean
+	});
 });
 
 Hooks.on("canvasInit", function() {
@@ -125,12 +133,20 @@ function getAttributeValue(actor, attribute) {
   return attr ? attr.value : 0;
 }
 
-function zundercuckRoll (formula, {rollMode="roll", chatData={}, display=true, explode=true}={}) {
+function zundercuckRoll (formula, {rollMode="roll", chatData={}, display=true, explode=game.settings.get("zundercuck", "explodingDice")}={}) {
   const speaker = ChatMessage.getSpeaker();
   const actor = game.actors.get(speaker.actor);
   const token = canvas.tokens.get(speaker.token);
   const character = game.user.character;
   let isHard = false;
+
+  if (formula.match(/#damp(\s|$)|#noexplode(\s|$)|#ne(\s|$)/i)) {
+    explode = false;
+  } else if (formula.match(/#explode(\s|$)|#ex(\s|$)/)) {
+    explode = true;
+  }
+
+  formula = formula.replace(/#\S*/g, "").trim();
 
   let match = formula.match(/\d*d\d+h/g);
   if (match) {
