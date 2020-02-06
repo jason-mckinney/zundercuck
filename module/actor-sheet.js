@@ -116,21 +116,27 @@ export class ZunActorSheet extends ActorSheet {
     const attrs = this.object.data.data.attributes;
     const form = this.form;
 
-    // Add new attribute
-    if ( action === "create" ) {
-      const nk = Object.keys(attrs).length + 1;
-      let newKey = document.createElement("div");
-      newKey.innerHTML = `<input type="text" name="data.attributes.attr${nk}.key" value="attr${nk}"/>`;
-      newKey = newKey.children[0];
-      form.appendChild(newKey);
-      await this._onSubmit(event);
-    }
+    switch (action) {
+      case "create": // Add new attr
+        const nk = Object.keys(attrs).length + 1;
+        let newKey = document.createElement("div");
+        newKey.innerHTML = `<input type="text" name="data.attributes.attr${nk}.key" value="attr${nk}"/>`;
+        newKey = newKey.children[0];
+        form.appendChild(newKey);
+        await this._onSubmit(event);
+        break;
+      case "delete": // Remove existing attr
+        const li = a.closest(".attribute");
+        li.parentElement.removeChild(li);
+        await this._onSubmit(event);
+        break;
+      case "beffort": case "aeffort": case "meffort": case "ueffort":
+        const dice = {beffort: "1d4", aeffort: "1d6", meffort: "1d8", ueffort: "1d12"};
+        const attribute = a.closest(".attribute").getAttribute("data-attribute");
+        const targets = Array.from(game.user.targets);
+        const formula = dice[action] + " + @" + attribute;
 
-    // Remove existing attribute
-    else if ( action === "delete" ) {
-      const li = a.closest(".attribute");
-      li.parentElement.removeChild(li);
-      await this._onSubmit(event);
+        game.zundercuckEffort(formula, targets, this.object);
     }
   }
 

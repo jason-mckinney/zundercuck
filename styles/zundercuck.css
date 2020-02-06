@@ -79,10 +79,10 @@
 
 /* Content Tabs */
 .zundercuck.sheet .sheet-body {
-    height: calc(100% - 160px);
+    height: calc(100% - 192px);
 }
 .zundercuck.sheet .sheet-body .tab {
-    height: 100%;
+    height: 100% - 10px;
 }
 .zundercuck.sheet .sheet-body .editor {
     width: 100%;

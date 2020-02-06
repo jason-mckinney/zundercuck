@@ -12,6 +12,7 @@ Hooks.once("init", async function() {
 
   game.getAttributeValue = getAttributeValue;
   game.zundercuckRoll = zundercuckRoll;
+  game.zundercuckEffort = zundercuckEffort;
 
 	/**
 	 * Set an initiative formula for the system
@@ -29,8 +30,8 @@ Hooks.once("init", async function() {
 		name: "Exploding dice as default",
 		hint: "Replaces all normal/easy dice rolls with exploding dice unless #noexplode or #ne are specified in the roll.",
 		scope: "world",
-		config: true,
-		default: true,
+		config: false,
+		default: false,
 		type: Boolean
 	});
 });
@@ -47,46 +48,8 @@ Hooks.on("chatMessage", (chatlog, message) => {
     case "effort":
       const targets = Array.from(game.user.targets);
       const formula = message.replace(/\/e(?:ffort)?/, "").trim();
-      
-      const roll = zundercuckRoll(formula, {rollmode: "roll", display: true});
-      let end = "";
 
-      if (targets.length > 1) {
-        end = " and " 
-              + (targets.length - 1)
-              + " other target" 
-              + (targets.length > 2 ? "s" : "");
-      } else if (targets.length < 1) {
-        return false;
-      }
-
-      const total = canvas.tokens.get(ChatMessage.getSpeaker().token).actor.name 
-                    + " deals "
-                    + roll.total
-                    + " effort to "
-                    + targets[0].name
-                    + end;
-                        
-
-      const chatData = mergeObject(
-        {
-          content: "<div class=\"dice-roll\">"
-                  + "<h4 style=\"font-size: 16px; font-weight: bold\" class=\"dice-formula\">"
-                  + total
-                  + "</h4></div></div>"
-        }, 
-        {
-          user: game.user._id,
-          sound: CONFIG.sounds.dice,
-          type: CONST.CHAT_MESSAGE_TYPES.OTHER
-        }
-      );
-      
-      targets.forEach(async (target) => {
-         target.actor.update({"data.health.value": target.actor.data.data.health.value - Math.max(0, roll.total - target.actor.data.data.armor.value)});
-      });
-
-      ChatMessage.create(chatData);
+      zundercuckEffort(formula, targets);
 
       return false;
   }
@@ -133,9 +96,51 @@ function getAttributeValue(actor, attribute) {
   return attr ? attr.value : 0;
 }
 
-function zundercuckRoll (formula, {rollMode="roll", chatData={}, display=true, explode=game.settings.get("zundercuck", "explodingDice")}={}) {
+function zundercuckEffort (formula, targets, targetActor=null) {
+  const roll = zundercuckRoll(formula, {targetActor: targetActor, rollmode: "roll", display: true});
+  let end = "";
+
+  if (targets.length > 1) {
+    end = " and " 
+          + (targets.length - 1)
+          + " other target" 
+          + (targets.length > 2 ? "s" : "");
+  } else if (targets.length < 1) {
+    return false;
+  }
+
+  const total = canvas.tokens.get(ChatMessage.getSpeaker().token).actor.name 
+                + " deals "
+                + roll.total
+                + " effort to "
+                + targets[0].name
+                + end;
+                    
+
+  const chatData = mergeObject(
+    {
+      content: "<div class=\"dice-roll\">"
+              + "<h4 style=\"font-size: 16px; font-weight: bold\" class=\"dice-formula\">"
+              + total
+              + "</h4></div></div>"
+    }, 
+    {
+      user: game.user._id,
+      sound: CONFIG.sounds.dice,
+      type: CONST.CHAT_MESSAGE_TYPES.OTHER
+    }
+  );
+  
+  targets.forEach(async (target) => {
+      target.actor.update({"data.health.value": target.actor.data.data.health.value - Math.max(0, roll.total - target.actor.data.data.armor.value)});
+  });
+
+  ChatMessage.create(chatData);
+}
+
+function zundercuckRoll (formula, {targetActor=null, rollMode="roll", chatData={}, display=true, explode=game.settings.get("zundercuck", "explodingDice")}={}) {
   const speaker = ChatMessage.getSpeaker();
-  const actor = game.actors.get(speaker.actor);
+  const actor = targetActor ? targetActor : game.actors.get(speaker.actor);
   const token = canvas.tokens.get(speaker.token);
   const character = game.user.character;
   let isHard = false;
