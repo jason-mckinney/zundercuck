@@ -15,7 +15,7 @@
   "initiative": "1d4",
   "gridDistance": 1,
   "gridUnits": "Squares",
-  "primaryTokenAttribute": "hitpoints",
+  "primaryTokenAttribute": "health",
   "secondaryTokenAttribute": "herodice",
   "url": "https://github.com/jason-mckinney/zundercuck",
   "manifest": "https://raw.githubusercontent.com/jason-mckinney/zundercuck/master/system.json",

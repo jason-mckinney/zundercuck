@@ -121,7 +121,7 @@ Hooks.on("chatMessage", (chatlog, message) => {
     case "roll": case "gmroll": case "blindroll": case "selfroll":
       let formula = message.replace(/\/r(?:oll)?|\/gmr(?:oll)|\/b(?:lind)?r(?:oll)?|\/s(?:elf)?r(?:oll)?/, "").trim();
       
-      zundercuckRoll(formula, command);
+      zundercuckRoll(formula, {rollMode:command});
       return false;
   }
 
