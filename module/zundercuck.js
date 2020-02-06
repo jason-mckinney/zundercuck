@@ -97,7 +97,8 @@ function getAttributeValue(actor, attribute) {
 }
 
 function zundercuckEffort (formula, targets, targetActor=null) {
-  const roll = zundercuckRoll(formula, {targetActor: targetActor, rollmode: "roll", display: true});
+  const rollMode = game.settings.get("core", "rollMode");
+  const roll = zundercuckRoll(formula, {rollMode: rollMode, targetActor: targetActor, display: true});
   let end = "";
 
   if (targets.length > 1) {
@@ -116,8 +117,7 @@ function zundercuckEffort (formula, targets, targetActor=null) {
                 + targets[0].name
                 + end;
                     
-
-  const chatData = mergeObject(
+  let chatData = mergeObject(
     {
       content: "<div class=\"dice-roll\">"
               + "<h4 style=\"font-size: 16px; font-weight: bold\" class=\"dice-formula\">"
@@ -127,10 +127,20 @@ function zundercuckEffort (formula, targets, targetActor=null) {
     {
       user: game.user._id,
       sound: CONFIG.sounds.dice,
-      type: CONST.CHAT_MESSAGE_TYPES.OTHER
+      type: CONST.CHAT_MESSAGE_TYPES.OTHER,
+      blind: rollMode === "blindroll"
     }
   );
   
+  switch(rollMode) {
+    case "gmroll": case "blindroll":
+      chatData.whisper = game.users.entities.filter(u => u.isGM).map(u => u._id);
+      break;
+    case "selfroll":
+      chatData.whisper = [game.user._id];
+      break;
+  }
+
   targets.forEach(async (target) => {
       target.actor.update({"data.health.value": target.actor.data.data.health.value - Math.max(0, roll.total - target.actor.data.data.armor.value)});
   });
@@ -138,7 +148,7 @@ function zundercuckEffort (formula, targets, targetActor=null) {
   ChatMessage.create(chatData);
 }
 
-function zundercuckRoll (formula, {targetActor=null, rollMode="roll", chatData={}, display=true, explode=game.settings.get("zundercuck", "explodingDice")}={}) {
+function zundercuckRoll (formula, {targetActor=null, rollMode=game.settings.get("core", "rollMode"), chatData={}, display=true, explode=game.settings.get("zundercuck", "explodingDice")}={}) {
   const speaker = ChatMessage.getSpeaker();
   const actor = targetActor ? targetActor : game.actors.get(speaker.actor);
   const token = canvas.tokens.get(speaker.token);
