@@ -30,10 +30,27 @@ Hooks.once("init", async function() {
 		name: "Exploding dice as default",
 		hint: "Replaces all normal/easy dice rolls with exploding dice unless #noexplode or #ne are specified in the roll.",
 		scope: "world",
-		config: false,
+		config: true,
 		default: false,
 		type: Boolean
-	});
+  });
+  
+  Handlebars.registerHelper("coinOrSupplies", function(data) {
+    if (data.coin) {
+      return true;
+    } else if (data.supplies){
+      return true;
+    }
+
+    return false;
+  });
+
+  Handlebars.registerHelper("supplyCount", function(items) {
+    let count = 0;
+    items.forEach((item) => { if(item.name.toLowerCase() === "supply") { count++; } });
+
+    return count;
+  });
 });
 
 Hooks.on("canvasInit", function() {

@@ -7,11 +7,13 @@
     "templates": {
       "common": {
         "health": {
+          "dtype": "Number",
           "value": 1,
           "min": 0,
           "max": 1
         },
         "armor": {
+          "dtype": "Number",
           "value": 0
         }
       }
@@ -22,16 +24,27 @@
       ],
       "biography": "",
       "health": {
+        "dtype": "Number",
         "value": 20,
         "min": 0,
         "max": 20
       },
       "herodice": {
+        "dtype": "Number",
         "value": 3,
         "min": 0,
         "max": 3
       },
+      "rewardpoints": {
+        "dtype": "Number",
+        "value": 0
+      },
       "coin": {
+        "dtype": "Number",
+        "value": 0
+      },
+      "supplies": {
+        "dtype": "Number",
         "value": 0
       },
       "attributes": {

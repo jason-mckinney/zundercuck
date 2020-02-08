@@ -20,13 +20,9 @@
     margin-right: 10px;
 }
 
-.zundercuck.sheet .header-fields {
-    flex: 1;
-    height: 100px;
-}
-
 .zundercuck.sheet .charname {
-    height: 60px;
+    width: 100%;
+    height: 50px;
     padding: 5px;
     margin: 0;
     border-bottom: 0;
@@ -37,15 +33,55 @@
     margin: 0;
 }
 
-.zundercuck.sheet .resource {
-    height: 40px;
-    width: 50%;
-    padding: 3px 10px;
-    float: left;
+.zundercuck.sheet .sheet-hr {
+    border-top: 1px solid #a9a9a9; 
+    border-bottom: unset;
 }
-.zundercuck.sheet .resource input {
+
+.zundercuck.sheet .stat-container {
+    display: flex; 
+    flex: 1.5; 
+    height: auto; 
+    margin-bottom: 2px;
+    flex-basis: 100%;
+}
+
+.zundercuck.sheet .stat{
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    margin-bottom: 5px;
+}
+.zundercuck.sheet .stat span {
+    margin-bottom: -3px;
+    place-self: center;
+    white-space: nowrap;
+    overflow: hidden;
+}
+.zundercuck.sheet .stat input {
+    margin-top: 3px;
+    text-align: center;
+    width: 30px;
+    height: 30px;
+    min-width: auto;
+    place-self: center;
+    font-size: 12pt;
+}
+.zundercuck.sheet .stat .input-small {
+    width: 25px;
+    height: 25px;
+    margin-top: 18px;
+    font-size: 10pt;
+}
+.zundercuck.sheet .stat .input-large {
     width: 40px;
-    height: 28px;
+    height: 40px;
+    font-size: 14pt;
+}
+.zundercuck.sheet .stat .input-wide {
+    width: 100px;
+    height: 40px;
+    font-size: 14pt;
 }
 
 .zundercuck.sheet .checkresource {
@@ -62,14 +98,15 @@
 
 /* Navigation Tabs */
 .zundercuck.sheet .tabs {
-    flex: 0 0 40px;
     border-top: 1px solid #AAA;
     border-bottom: 1px solid #AAA;
 }
 
 .zundercuck.sheet .tabs .item {
-    line-height: 40px;
+    line-height: 25px;
     font-weight: bold;
+    white-space: nowrap;
+    overflow: hidden;
 }
 
 .zundercuck.sheet .tabs .item.active {
@@ -82,7 +119,7 @@
     height: calc(100% - 192px);
 }
 .zundercuck.sheet .sheet-body .tab {
-    height: 100% - 10px;
+    height: 100%;
 }
 .zundercuck.sheet .sheet-body .editor {
     width: 100%;
@@ -93,9 +130,10 @@
 /* Items */
 .zundercuck.sheet .items-list {
     list-style: none;
-    margin: 7px 0;
-    padding: 0;
+    margin: 0 0;
+    padding: 2px 0 0;
     overflow-y: auto;
+    flex: 1;
 }
 .zundercuck.sheet .items-list .item {
     height: 30px;
@@ -117,7 +155,7 @@
 /* Attributes */
 .zundercuck.sheet .attributes-header { 
     padding: 5px;
-    margin: 5px 0;
+    margin: 5px 0 0;
     background: rgba(0, 0, 0, 0.05);
     border: 1px solid #AAA;
     border-radius: 2px;
@@ -134,7 +172,9 @@
 .zundercuck.sheet .attributes-list {
     list-style: none;
     margin: 0;
-    padding: 0;
+    padding: 2px 0 0;
+    overflow-y: auto;
+    flex: 1;
 }
 
 .zundercuck.sheet .attributes-list li > * {
