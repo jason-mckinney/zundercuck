@@ -188,12 +188,12 @@ function zundercuckRoll (formula, {targetActor=null, rollMode=game.settings.get(
       let nDice = groups[1];
 
       if (nDice == "") {
-        nDice = 2;
+        nDice = 1;
       } else if ((nDice=Number(nDice)) <= 1) {
-        nDice = 2;
+        nDice = 1;
       }
       
-      formula = formula.replace(/(\d*)d(\d+)h/, String(nDice) + "d" + groups[2] + "kh" + String(nDice-1));
+      formula = formula.replace(/(\d*)d(\d+)h/, String(nDice+1) + "d" + groups[2] + "kh" + String(nDice));
       
       // const left = groups[1]>1 ? (groups[1]-1 + "" + "d" + groups[2] + "+") : "";
       // formula = formula.replace(groups[0], left + "abs(" + "1d" + groups[2] + "-" + "1d" + groups[2] + ")");
@@ -241,7 +241,7 @@ function zundercuckRoll (formula, {targetActor=null, rollMode=game.settings.get(
     match = formula.match(/(?!\d*d\d+[a-zA-Z])\d*d(\d+)/g);
     if (match) {
       match.forEach((part) => {
-        const groups = regex.exec(part);5
+        const groups = regex.exec(part);
         formula = formula.replace(regex, groups[0]+"x"+groups[1]);
       });
     }
@@ -264,14 +264,26 @@ function zundercuckRoll (formula, {targetActor=null, rollMode=game.settings.get(
         }
 
         it.formula = it.formula.replace(/kh\d*/g, "h");
+        
+        match = it.formula.match(/(\d*)(d(\d+)h)/);
+        if (match) {
+          it.formula = String(Number(match[1]) - 1) + match[2];
+        }
       }
     }
 
     roll._formula = roll._formula.replace(/kh\d*/g, "h");
-    roll.formula = roll.formula.replace(/kh\d*/g, "h");
+
+    match = roll._formula.match(/(\d*)d(\d+)h/g);
+    if (match) {
+      match.forEach ((part) => {
+        const groups = /(\d*)(d(\d+)h)/.exec(part);
+        roll._formula = roll._formula.replace(groups[0], String(Number(groups[1]) - 1) + groups[2]);
+      })
+    }
+
+    roll.formula = roll._formula
     roll._result = String(roll._total);
-    console.log(roll);
-    console.log(JSON.stringify(roll));
   }
 
   if (display) {
