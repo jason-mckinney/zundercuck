@@ -62,9 +62,9 @@ Hooks.on("chatMessage", (chatlog, message) => {
   let [command, m] = parse(message);
 
   switch (command) {
-    case "effort":
+    case "effort": case "attack":
       const targets = Array.from(game.user.targets);
-      const formula = message.replace(/\/e(?:ffort)?/, "").trim();
+      const formula = message.replace(/\/e(?:ffort)?/, "").replace(/\/a(?:ttack)?/, "").trim();
 
       zundercuckEffort(formula, targets);
 
@@ -185,8 +185,18 @@ function zundercuckRoll (formula, {targetActor=null, rollMode=game.settings.get(
     isHard = true;
     match.forEach((m) => {
       const groups = /(\d*)d(\d+)h/.exec(m);
-      const left = groups[1]>1 ? (groups[1]-1 + "" + "d" + groups[2] + "+") : "";
-      formula = formula.replace(groups[0], left + "abs(" + "1d" + groups[2] + "-" + "1d" + groups[2] + ")");
+      let nDice = groups[1];
+
+      if (nDice == "") {
+        nDice = 2;
+      } else if ((nDice=Number(nDice)) <= 1) {
+        nDice = 2;
+      }
+      
+      formula = formula.replace(/(\d*)d(\d+)h/, String(nDice) + "d" + groups[2] + "kh" + String(nDice-1));
+      
+      // const left = groups[1]>1 ? (groups[1]-1 + "" + "d" + groups[2] + "+") : "";
+      // formula = formula.replace(groups[0], left + "abs(" + "1d" + groups[2] + "-" + "1d" + groups[2] + ")");
     });
   }
 
@@ -239,6 +249,31 @@ function zundercuckRoll (formula, {targetActor=null, rollMode=game.settings.get(
 
   const roll = new Roll(formula, {});
   roll.roll();
+
+  if (isHard) {
+    for (let itr = 0; itr < roll.parts.length; ++itr) {
+      let it = roll.parts[itr]
+      if (it instanceof Die && it.formula.includes("kh")) {
+        for (let jtr = 0; jtr < it.rolls.length; ++jtr) {
+          if (it.rolls[jtr].discarded) {
+            roll._total -= it.rolls[jtr].roll;
+
+            it.rolls[jtr].discarded = false;
+            it.rolls[jtr].roll *= -1;
+          }
+        }
+
+        it.formula = it.formula.replace(/kh\d*/g, "h");
+      }
+    }
+
+    roll._formula = roll._formula.replace(/kh\d*/g, "h");
+    roll.formula = roll.formula.replace(/kh\d*/g, "h");
+    roll._result = String(roll._total);
+    console.log(roll);
+    console.log(JSON.stringify(roll));
+  }
+
   if (display) {
     roll.toMessage({chatData}, {rollMode:rollMode, create:true});
   }
@@ -259,6 +294,7 @@ function parse(message) {
   const sr = '^(\\/s(?:elf)?r(?:oll)? )';   // Self rolls, support /sr or /sroll
   const initiative = '^(\\/i(?:nitiative)? )';
   const effort = '^(\\/e(?:ffort)? )';
+  const attack = '^(\\/a(?:ttack)? )';
   const any = '([^]*)';                     // Any character, including new lines
   const word = '\\S+';
 
@@ -269,6 +305,7 @@ function parse(message) {
     "blindroll": new RegExp(br+formula, 'i'),
     "selfroll": new RegExp(sr+formula, 'i'),
     "effort": new RegExp(effort+formula, 'i'),
+    "attack": new RegExp(attack+formula, 'i'),
     "initiative": new RegExp(initiative+word+'$', 'i'),
     "ic": new RegExp('^(\/ic )'+any, 'i'),
     "ooc": new RegExp('^(\/ooc )'+any, 'i'),
@@ -284,8 +321,4 @@ function parse(message) {
     if ( match ) return [c, match];
   }
   return [null, null];
-}
-
-export const _onCombatantControl = function (event) {
-  console.log("Bip!");
 }

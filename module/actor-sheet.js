@@ -136,7 +136,7 @@ export class ZunActorSheet extends ActorSheet {
         const targets = Array.from(game.user.targets);
         const formula = dice[action] + " + @" + attribute;
 
-        game.zundercuckEffort(formula, targets, this.object);
+        game.zundercuckRoll(formula);
     }
   }
 

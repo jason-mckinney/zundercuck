@@ -116,7 +116,7 @@
 
 /* Content Tabs */
 .zundercuck.sheet .sheet-body {
-    height: calc(100% - 192px);
+    height: calc(100% - 140px);
 }
 .zundercuck.sheet .sheet-body .tab {
     height: 100%;
