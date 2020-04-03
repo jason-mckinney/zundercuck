@@ -13,10 +13,13 @@
             {{!-- Stats --}}
             <div class="stat-container">
                 <div class="stat">
-                    <span style="margin-right: 25px;">Health</span>
+                    <span style="margin-right: 53px;">Health</span>
                     <div style="display: flex; place-content: center;"> 
                         <input class="input-large" type="text" name="data.health.value" value="{{data.health.value}}" data-dtype="Number"/>
                         <input class="input-small" type="text" name="data.health.max" value="{{data.health.max}}" data-dtype="Number"/>
+                        <input class="input-small" style="margin-left: 2px;" type="text" name="data.health.temp" value="{{data.health.temp}}" data-dtype="Number"/>
+                        <label style="margin-left: 7px; margin-top: 3px; font-size: 12px; position: absolute;">Max</label>
+                        <label style="margin-left: 34px; margin-top: 3px; font-size: 12px; position: absolute;">Temp</label>
                     </div>
                 </div>
                 
@@ -34,7 +37,6 @@
                     </div>
                 {{/if}}
                 </div>
-                
                 <div class="stat">
                 {{#if data.rewardpoints}}
                     <span>Reward Points</span>
@@ -60,7 +62,11 @@
                 {{!-- Skill List --}}
                 <div class="attributes" style="flex: 1; display: flex; flex-direction: column;">
                     <header class="attributes-header flexrow">
-                        <span class="dice" style="flex: 0.325">Roll</span>
+                        <!-- <span class="dice" style="flex: 0.325">Roll</span> -->
+                        <select style="flex: 0.325; position: absolute; height: 18px;" id="roll-type" name="roll-type">
+                          <option value="roll">Roll</option>
+                          <option value="effort">Effort</option>
+                        </select>
                         <span class="attribute-key">Skill</span>
                         <span class="attribute-value" style="flex: 0.5">Rank</span>
                         <span class="attribute-dtype">Data Type</span>

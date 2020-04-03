@@ -10,7 +10,8 @@
           "dtype": "Number",
           "value": 1,
           "min": 0,
-          "max": 1
+          "max": 1,
+          "temp": 0
         },
         "armor": {
           "dtype": "Number",
@@ -27,7 +28,8 @@
         "dtype": "Number",
         "value": 20,
         "min": 0,
-        "max": 20
+        "max": 20,
+        "temp": 0
       },
       "herodice": {
         "dtype": "Number",
@@ -80,18 +82,18 @@
           "dtype": "Number",
           "value": 0
         },
-        "firstaid": {
-          "name": "firstaid",
-          "label": "firstaid",
-          "formula": "$firstaid",
-          "min": 0,
-          "dtype": "Number",
-          "value": 0
-        },
         "fortitude": {
           "name": "fortitude",
           "label": "fortitude",
           "formula": "$fortitude",
+          "min": 0,
+          "dtype": "Number",
+          "value": 0
+        },
+        "initiative": {
+          "name": "initiative",
+          "label": "initiative",
+          "formula": "$initiative",
           "min": 0,
           "dtype": "Number",
           "value": 0

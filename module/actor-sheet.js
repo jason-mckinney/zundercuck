@@ -52,12 +52,15 @@ export class ZunActorSheet extends ActorSheet {
     super.activateListeners(html);
 
     // Activate tabs
-    let tabs = html.find('.tabs');
+    //let tabs = html.find('.tabs');
     let initial = this._sheetTab;
-    new Tabs(tabs, {
+    const tabs = new TabsV2({
+      navSelector: '.tabs',
+      contentSelector: ".sheet-body",
       initial: initial,
-      callback: clicked => this._sheetTab = clicked.data("tab")
-    });
+      callback: () => {}
+    })
+    tabs.bind(html[0]);
 
     // Everything below here is only needed if the sheet is editable
     if (!this.options.editable) return;
@@ -134,9 +137,18 @@ export class ZunActorSheet extends ActorSheet {
         const dice = {beffort: "1d4", aeffort: "1d6", meffort: "1d8", ueffort: "1d12"};
         const attribute = a.closest(".attribute").getAttribute("data-attribute");
         const targets = Array.from(game.user.targets);
-        const formula = dice[action] + " + @" + attribute;
+        const formula = dice[action] + " + $" + attribute;
 
-        game.zundercuckRoll(formula);
+        let rollType = $(document).find('#roll-type')[0].value;
+
+        switch (rollType) {
+        case 'roll':
+          game.zundercuckRoll(formula);
+          break;
+        case 'effort':
+          game.zundercuckEffort(formula, targets, this.object);
+          break;
+        }
     }
   }
 

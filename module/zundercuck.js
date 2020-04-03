@@ -83,10 +83,9 @@ Hooks.on("chatMessage", (chatlog, message) => {
       const token = canvas.tokens.get(ChatMessage.getSpeaker().token);
       if (!token) { break; }
 
-      let attr = message.replace(/\/i(?:nitiative)?/, "").trim();
-      attr = getAttributeValue(token.actor, attr);
+      let initiative = getAttributeValue(token.actor, 'initiative');
       
-      game.combat.rollInitiative(game.combat.getCombatantByToken(token.id)._id, CONFIG.initiative.formula + "+" + attr);
+      game.combat.rollInitiative(game.combat.getCombatantByToken(token.id)._id, CONFIG.initiative.formula + "+" + initiative);
 
       return false;
   }
@@ -159,7 +158,12 @@ function zundercuckEffort (formula, targets, targetActor=null) {
   }
 
   targets.forEach(async (target) => {
-      target.actor.update({"data.health.value": target.actor.data.data.health.value - Math.max(0, roll.total - target.actor.data.data.armor.value)});
+    let totalDamage = roll.total - target.actor.data.data.armor.value;
+    let tempDamage = Math.min(target.actor.data.data.health.temp, totalDamage);
+    let hpDamage = totalDamage - tempDamage;
+    
+    await target.actor.update({"data.health.temp": target.actor.data.data.health.temp - Math.max(0, tempDamage)});
+    target.actor.update({"data.health.value": target.actor.data.data.health.value - Math.max(0, hpDamage)});
   });
 
   ChatMessage.create(chatData);
@@ -194,9 +198,6 @@ function zundercuckRoll (formula, {targetActor=null, rollMode=game.settings.get(
       }
       
       formula = formula.replace(/(\d*)d(\d+)h/, String(nDice+1) + "d" + groups[2] + "kh" + String(nDice));
-      
-      // const left = groups[1]>1 ? (groups[1]-1 + "" + "d" + groups[2] + "+") : "";
-      // formula = formula.replace(groups[0], left + "abs(" + "1d" + groups[2] + "-" + "1d" + groups[2] + ")");
     });
   }
 
@@ -304,7 +305,7 @@ function parse(message) {
   const gm = '^(\\/gmr(?:oll)? )';          // GM rolls, support /gmr or /gmroll
   const br = '^(\\/b(?:lind)?r(?:oll)? )';  // Blind rolls, support /br or /blindroll
   const sr = '^(\\/s(?:elf)?r(?:oll)? )';   // Self rolls, support /sr or /sroll
-  const initiative = '^(\\/i(?:nitiative)? )';
+  const initiative = '^(\\/i(?:nitiative)?\S*)';
   const effort = '^(\\/e(?:ffort)? )';
   const attack = '^(\\/a(?:ttack)? )';
   const any = '([^]*)';                     // Any character, including new lines
@@ -318,7 +319,7 @@ function parse(message) {
     "selfroll": new RegExp(sr+formula, 'i'),
     "effort": new RegExp(effort+formula, 'i'),
     "attack": new RegExp(attack+formula, 'i'),
-    "initiative": new RegExp(initiative+word+'$', 'i'),
+    "initiative": new RegExp(initiative+formula, 'i'),
     "ic": new RegExp('^(\/ic )'+any, 'i'),
     "ooc": new RegExp('^(\/ooc )'+any, 'i'),
     "emote": new RegExp('^(\/em(?:ote)? )'+any, 'i'),
