@@ -1,48 +1,68 @@
 <form class="{{cssClass}}" style="height: 100%; display: flex; flex-direction: column;" autocomplete="off">
     {{!-- Header --}}
-    <header style="display: flex;">
-        {{!-- Actor Image --}}
-        <div><img src="{{actor.img}}" data-edit="img" title="{{actor.name}}" height="100" width="100"/></div>
+    <header style="display: flex; flex-direction: column;">
+        <div style="display: flex;">
+            {{!-- Actor Image --}}
+            <div><img src="{{actor.img}}" data-edit="img" title="{{actor.name}}" height="100" width="100"/></div>
 
-        <div style="display: flex; flex-direction: column; flex: 1;">
-            {{!-- Name and Species --}}
-            <div style="display: flex; margin-left: 23px;">
-                <h1 class="charname"><input name="name" type="text" value="{{actor.name}}" placeholder="Name"/></h1>
+            <div style="display: flex; flex-direction: column; flex: 1;">
+                {{!-- Name and Species --}}
+                <div style="display: flex; margin-left: 5px;">
+                    <h1 class="charname"><input name="name" type="text" value="{{actor.name}}" placeholder="Name"/></h1>
+                </div>
+
+                {{!-- Stats --}}
+                <div class="stat-container">
+                    <div class="stat">
+                        <span>Fortitude</span>
+                        <input class="input-large" type="text" name="data.saves.fortitude.value" value="{{data.saves.fortitude.value}}" data-dtype="Number"/>
+                    </div>
+        
+                    <div class="stat">
+                        <span>Reflex</span>
+                        <input class="input-large" type="text" name="data.saves.reflex.value" value="{{data.saves.reflex.value}}" data-dtype="Number"/>
+                    </div>
+        
+                    <div class="stat">
+                        <span>Will</span>
+                        <input class="input-large" type="text" name="data.saves.will.value" value="{{data.saves.will.value}}" data-dtype="Number"/>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="stat-container" style="margin-top: -2px;">
+            <div class="stat" style="flex: 1">
+                <span style="margin-right: 53px;">Health</span>
+                <div style="display: flex; place-content: center;"> 
+                    <input class="input-large" type="text" name="data.health.value" value="{{data.health.value}}" data-dtype="Number"/>
+                    <input class="input-small" type="text" name="data.health.max" value="{{data.health.max}}" data-dtype="Number"/>
+                    <input class="input-small" style="margin-left: 2px;" type="text" name="data.health.temp" value="{{data.health.temp}}" data-dtype="Number"/>
+                    <label style="margin-left: 7px; margin-top: 3px; font-size: 12px; position: absolute;">Max</label>
+                    <label style="margin-left: 34px; margin-top: 3px; font-size: 12px; position: absolute;">Temp</label>
+                </div>
             </div>
 
-            {{!-- Stats --}}
-            <div class="stat-container">
-                <div class="stat">
-                    <span style="margin-right: 53px;">Health</span>
-                    <div style="display: flex; place-content: center;"> 
-                        <input class="input-large" type="text" name="data.health.value" value="{{data.health.value}}" data-dtype="Number"/>
-                        <input class="input-small" type="text" name="data.health.max" value="{{data.health.max}}" data-dtype="Number"/>
-                        <input class="input-small" style="margin-left: 2px;" type="text" name="data.health.temp" value="{{data.health.temp}}" data-dtype="Number"/>
-                        <label style="margin-left: 7px; margin-top: 3px; font-size: 12px; position: absolute;">Max</label>
-                        <label style="margin-left: 34px; margin-top: 3px; font-size: 12px; position: absolute;">Temp</label>
-                    </div>
-                </div>
-                
-                <div class="stat">
-                    <span>Armor</span>
-                    <input class="input-large" type="text" name="data.armor.value" value="{{data.armor.value}}" data-dtype="Number"/>
-                </div>
+            <div class="stat" style="flex: 1.63">
+                <span>Armor</span>
+                <input class="input-large" type="text" name="data.armor.value" value="{{data.armor.value}}" data-dtype="Number"/>
+            </div>
 
-                <div class="stat">
-                {{#if data.herodice}}    
-                    <span style="margin-right: 25px;">Hero Dice</span>
-                    <div style="display: flex; place-content: center;"> 
-                        <input class="input-large" type="text" name="data.herodice.value" value="{{data.herodice.value}}" data-dtype="Number"/>
-                        <input class="input-small" type="text" name="data.herodice.max" value="{{data.herodice.max}}" data-dtype="Number"/>
-                    </div>
-                {{/if}}
+            <div class="stat" style="flex: 1.63">
+            {{#if data.herodice}}    
+                <span>Hero Dice</span>
+                <div style="display: flex; place-content: center; padding-left: 25px;"> 
+                    <input class="input-large" type="text" name="data.herodice.value" value="{{data.herodice.value}}" data-dtype="Number"/>
+                    <input class="input-small" type="text" name="data.herodice.max" value="{{data.herodice.max}}" data-dtype="Number"/>
                 </div>
-                <div class="stat">
-                {{#if data.rewardpoints}}
-                    <span>Reward Points</span>
-                    <input class="input-large" type="text" name="data.rewardpoints.value" value="{{data.rewardpoints.value}}" data-dtype="Number"/>
-                {{/if}}
-                </div>
+            {{/if}}
+            </div>
+
+            <div class="stat" style="flex: 1.63">
+            {{#if data.rewardpoints}}
+                <span>Reward Points</span>
+                <input class="input-large" type="text" name="data.rewardpoints.value" value="{{data.rewardpoints.value}}" data-dtype="Number"/>
+            {{/if}}
             </div>
         </div>
     </header>

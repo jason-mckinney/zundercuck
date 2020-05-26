@@ -2,18 +2,6 @@
  * Extend the basic ActorSheet
  */
 export class ZunActorSheet extends ActorSheet {
-  constructor(...args) {
-    super(...args);
-
-    /**
-     * Keep track of the currently active sheet tab
-     * @type {string}
-     */
-    this._sheetTab = "skills";
-  }
-
-  /* -------------------------------------------- */
-
   /**
    * Extend and override the default options used by the default Actor Sheet
    * @returns {Object}
@@ -21,9 +9,11 @@ export class ZunActorSheet extends ActorSheet {
 	static get defaultOptions() {
 	  return mergeObject(super.defaultOptions, {
   	  classes: ["zundercuck", "sheet", "actor"],
-  	  template: "systems/zundercuck/templates/actor-sheet.html",
+      template: "systems/zundercuck/templates/actor-sheet.html",
       width: 600,
-      height: 600
+      height: 600,
+      tabs: [{navSelector: ".sheet-tabs", contentSelector: ".sheet-body", initial: "skills"}]
+      //dragDrop: [{dragSelector: ".item-list .item", dropSelector: null}]
     });
   }
 
@@ -50,17 +40,6 @@ export class ZunActorSheet extends ActorSheet {
    */
 	activateListeners(html) {
     super.activateListeners(html);
-
-    // Activate tabs
-    //let tabs = html.find('.tabs');
-    let initial = this._sheetTab;
-    const tabs = new TabsV2({
-      navSelector: '.tabs',
-      contentSelector: ".sheet-body",
-      initial: initial,
-      callback: () => {}
-    })
-    tabs.bind(html[0]);
 
     // Everything below here is only needed if the sheet is editable
     if (!this.options.editable) return;

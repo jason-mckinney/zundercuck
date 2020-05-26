@@ -15,7 +15,33 @@
         },
         "armor": {
           "dtype": "Number",
-          "value": 0
+          "value": 3
+        },
+        "saves": {
+          "fortitude": {
+            "name": "fortitude",
+            "label": "fortitude",
+            "formula": "$fortitude",
+            "min": 0,
+            "dtype": "Number",
+            "value": 0
+          },
+          "reflex": {
+            "name": "reflex",
+            "label": "reflex",
+            "formula": "$reflex",
+            "min": 0,
+            "dtype": "Number",
+            "value": 0
+          },
+          "will": {
+            "name": "will",
+            "label": "will",
+            "formula": "$will",
+            "min": 0,
+            "dtype": "Number",
+            "value": 0
+          }
         }
       }
     },
@@ -50,26 +76,42 @@
         "value": 0
       },
       "attributes": {
-        "deception": {
-          "name": "deception",
-          "label": "deception",
-          "formula": "$deception",
+        "awareness": {
+          "name": "awareness",
+          "label": "awareness",
+          "formula": "$awareness",
           "min": 0,
           "dtype": "Number",
           "value": 0
         },
-        "diplomacy": {
-          "name": "diplomacy",
-          "label": "diplomacy",
-          "formula": "$diplomacy",
+        "conjuration": {
+          "name": "conjuration",
+          "label": "conjuration",
+          "formula": "$conjuration",
           "min": 0,
           "dtype": "Number",
           "value": 0
         },
-        "empathy": {
-          "name": "empathy",
-          "label": "empathy",
-          "formula": "$empathy",
+        "combatintuition": {
+          "name": "combatintuition",
+          "label": "combatintuition",
+          "formula": "$combatintuition",
+          "min": 0,
+          "dtype": "Number",
+          "value": 0
+        },
+        "dimension": {
+          "name": "dimension",
+          "label": "dimension",
+          "formula": "$dimension",
+          "min": 0,
+          "dtype": "Number",
+          "value": 0
+        },
+        "evocation": {
+          "name": "evocation",
+          "label": "evocation",
+          "formula": "$evocation",
           "min": 0,
           "dtype": "Number",
           "value": 0
@@ -82,26 +124,10 @@
           "dtype": "Number",
           "value": 0
         },
-        "fortitude": {
-          "name": "fortitude",
-          "label": "fortitude",
-          "formula": "$fortitude",
-          "min": 0,
-          "dtype": "Number",
-          "value": 0
-        },
-        "initiative": {
-          "name": "initiative",
-          "label": "initiative",
-          "formula": "$initiative",
-          "min": 0,
-          "dtype": "Number",
-          "value": 0
-        },
-        "investigate": {
-          "name": "investigate",
-          "label": "investigate",
-          "formula": "$investigate",
+        "illusion": {
+          "name": "illusion",
+          "label": "illusion",
+          "formula": "$illusion",
           "min": 0,
           "dtype": "Number",
           "value": 0
@@ -114,34 +140,10 @@
           "dtype": "Number",
           "value": 0
         },
-        "notice": {
-          "name": "notice",
-          "label": "notice",
-          "formula": "$notice",
-          "min": 0,
-          "dtype": "Number",
-          "value": 0
-        },
         "power": {
           "name": "power",
           "label": "power",
           "formula": "$power",
-          "min": 0,
-          "dtype": "Number",
-          "value": 0
-        },
-        "provoke": {
-          "name": "provoke",
-          "label": "provoke",
-          "formula": "$provoke",
-          "min": 0,
-          "dtype": "Number",
-          "value": 0
-        },
-        "reflex": {
-          "name": "reflex",
-          "label": "reflex",
-          "formula": "$reflex",
           "min": 0,
           "dtype": "Number",
           "value": 0
@@ -178,6 +180,22 @@
           "dtype": "Number",
           "value": 0
         },
+        "socialintuition": {
+          "name": "socialintuition",
+          "label": "socialintuition",
+          "formula": "$socialintuition",
+          "min": 0,
+          "dtype": "Number",
+          "value": 0
+        },
+        "speechcraft": {
+          "name": "speechcraft",
+          "label": "speechcraft",
+          "formula": "$speechcraft",
+          "min": 0,
+          "dtype": "Number",
+          "value": 0
+        },
         "survival": {
           "name": "survival",
           "label": "survival",
@@ -202,10 +220,10 @@
           "dtype": "Number",
           "value": 0
         },
-        "will": {
-          "name": "will",
-          "label": "will",
-          "formula": "$will",
+        "wildmagic": {
+          "name": "wildmagic",
+          "label": "wildmagic",
+          "formula": "$wildmagic",
           "min": 0,
           "dtype": "Number",
           "value": 0

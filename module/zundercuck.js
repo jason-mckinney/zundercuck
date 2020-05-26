@@ -18,7 +18,7 @@ Hooks.once("init", async function() {
 	 * Set an initiative formula for the system
 	 * @type {String}
 	 */
-	CONFIG.initiative.formula = "1d4";
+	CONFIG.Combat.initiative.formula = "1d4";
 
   // Register sheet application classes
   Actors.unregisterSheet("core", ActorSheet);
@@ -26,14 +26,14 @@ Hooks.once("init", async function() {
   Items.unregisterSheet("core", ItemSheet);
   Items.registerSheet("zundercuck", ZunItemSheet, {makeDefault: true});
 
-  game.settings.register("zundercuck", "explodingDice", {
+  /*game.settings.register("zundercuck", "explodingDice", {
 		name: "Exploding dice as default",
 		hint: "Replaces all normal/easy dice rolls with exploding dice unless #noexplode or #ne are specified in the roll.",
 		scope: "world",
 		config: true,
 		default: false,
 		type: Boolean
-  });
+  });*/
   
   Handlebars.registerHelper("coinOrSupplies", function(data) {
     if (data.coin) {
