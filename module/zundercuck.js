@@ -83,9 +83,9 @@ Hooks.on("chatMessage", (chatlog, message) => {
       const token = canvas.tokens.get(ChatMessage.getSpeaker().token);
       if (!token) { break; }
 
-      let initiative = getAttributeValue(token.actor, 'initiative');
+      let initiative = token.actor.data.data.saves.reflex.value;
       
-      game.combat.rollInitiative(game.combat.getCombatantByToken(token.id)._id, CONFIG.initiative.formula + "+" + initiative);
+      game.combat.rollInitiative(game.combat.getCombatantByToken(token.id)._id, CONFIG.Combat.initiative.formula + "+" + initiative);
 
       return false;
   }
@@ -169,7 +169,7 @@ function zundercuckEffort (formula, targets, targetActor=null) {
   ChatMessage.create(chatData);
 }
 
-function zundercuckRoll (formula, {targetActor=null, rollMode=game.settings.get("core", "rollMode"), chatData={}, display=true, explode=game.settings.get("zundercuck", "explodingDice")}={}) {
+function zundercuckRoll (formula, {targetActor=null, rollMode=game.settings.get("core", "rollMode"), chatData={}, display=true, explode=false}={}) {
   const speaker = ChatMessage.getSpeaker();
   const actor = targetActor ? targetActor : game.actors.get(speaker.actor);
   const token = canvas.tokens.get(speaker.token);
