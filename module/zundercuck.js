@@ -7,6 +7,8 @@ import { measureDistance } from "./canvas.js";
 /*  Foundry VTT Initialization                  */
 /* -------------------------------------------- */
 
+const systemSocket = "system.zundercuck";
+
 Hooks.once("init", async function() {
   console.log(`ZUNDERCUCK!`);
 
@@ -51,6 +53,25 @@ Hooks.once("init", async function() {
 
     return count;
   });
+});
+
+function processAction(data) {
+  let chatData = mergeObject(
+    {
+      content: "socket recv"
+    }, 
+    {
+      user: game.user._id,
+      type: CONST.CHAT_MESSAGE_TYPES.OOC
+    }
+  );
+
+  ChatMessage.create(chatData);
+  console.log(data);
+}
+
+Hooks.on("ready", () => {
+  game.socket.on(systemSocket, recieveData);
 });
 
 Hooks.on("canvasInit", function() {
@@ -107,6 +128,39 @@ Hooks.on("chatMessage", (chatlog, message) => {
   return true;
 });
 
+async function updateActor (actor, data) {
+  await actor.update(data);
+};
+
+function recieveData(data) {
+  if (data.intendedFor._id === game.userId) {
+    switch (data.type){
+    case "EntityUpdate":
+      updateActor(canvas.tokens.get(data.target).actor, data.data);
+      break;
+    }
+  } 
+}
+
+function broadcastData(data) {
+  // if not a gm broadcast the message to a gm who can apply the damage
+  if (!game.user.isGM)
+    game.socket.emit(systemSocket, data);
+  else
+    data.intendedFor = game.user
+    recieveData(data);
+}
+
+function requestUpdate(target, data){
+  broadcastData({
+    "target": target,
+    data: data,
+    type: "EntityUpdate",
+    sender: game.user.name,
+    intendedFor: game.users.entities.find(u => u.isGM && u.active)
+  });
+}
+
 function getAttributeValue(actor, attribute) {
   const attr = actor.data.data.attributes[attribute];
   return attr ? attr.value : 0;
@@ -157,13 +211,13 @@ function zundercuckEffort (formula, targets, targetActor=null) {
       break;
   }
 
-  targets.forEach(async (target) => {
+  targets.forEach(target => {
     let totalDamage = roll.total - target.actor.data.data.armor.value;
     let tempDamage = Math.min(target.actor.data.data.health.temp, totalDamage);
     let hpDamage = totalDamage - tempDamage;
-    
-    await target.actor.update({"data.health.temp": target.actor.data.data.health.temp - Math.max(0, tempDamage)});
-    target.actor.update({"data.health.value": target.actor.data.data.health.value - Math.max(0, hpDamage)});
+
+    requestUpdate(target.data._id, {"data.health.temp": target.actor.data.data.health.temp - Math.max(0, tempDamage)});
+    requestUpdate(target.data._id, {"data.health.value": target.actor.data.data.health.value - Math.max(0, hpDamage)});
   });
 
   ChatMessage.create(chatData);

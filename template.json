@@ -92,10 +92,10 @@
           "dtype": "Number",
           "value": 0
         },
-        "combatintuition": {
-          "name": "combatintuition",
-          "label": "combatintuition",
-          "formula": "$combatintuition",
+        "craftsmanship": {
+          "name": "craftsmanship",
+          "label": "craftsmanship",
+          "formula": "$craftsmanship",
           "min": 0,
           "dtype": "Number",
           "value": 0
@@ -124,10 +124,34 @@
           "dtype": "Number",
           "value": 0
         },
+        "gatherinformation": {
+          "name": "gatherinformation",
+          "label": "gatherinformation",
+          "formula": "$gatherinformation",
+          "min": 0,
+          "dtype": "Number",
+          "value": 0
+        },
+        "insight": {
+          "name": "insight",
+          "label": "insight",
+          "formula": "$insight",
+          "min": 0,
+          "dtype": "Number",
+          "value": 0
+        },
         "illusion": {
           "name": "illusion",
           "label": "illusion",
           "formula": "$illusion",
+          "min": 0,
+          "dtype": "Number",
+          "value": 0
+        },
+        "lore": {
+          "name": "lore",
+          "label": "lore",
+          "formula": "$lore",
           "min": 0,
           "dtype": "Number",
           "value": 0
@@ -144,6 +168,14 @@
           "name": "power",
           "label": "power",
           "formula": "$power",
+          "min": 0,
+          "dtype": "Number",
+          "value": 0
+        },
+        "performance": {
+          "name": "performance",
+          "label": "performance",
+          "formula": "$performance",
           "min": 0,
           "dtype": "Number",
           "value": 0
@@ -176,14 +208,6 @@
           "name": "sneak",
           "label": "sneak",
           "formula": "$sneak",
-          "min": 0,
-          "dtype": "Number",
-          "value": 0
-        },
-        "socialintuition": {
-          "name": "socialintuition",
-          "label": "socialintuition",
-          "formula": "$socialintuition",
           "min": 0,
           "dtype": "Number",
           "value": 0
