@@ -15,7 +15,11 @@
         },
         "armor": {
           "dtype": "Number",
-          "value": 3
+          "value": 2
+        },
+        "magicarmor": {
+          "dtype": "Number",
+          "value": 2
         },
         "saves": {
           "fortitude": {

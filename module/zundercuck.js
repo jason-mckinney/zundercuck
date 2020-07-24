@@ -95,6 +95,23 @@ Hooks.on("chatMessage", (chatlog, message) => {
   return true;
 });
 
+//meffort command
+Hooks.on("chatMessage", (chatlog, message) => {
+  let [command, m] = parse(message);
+
+  switch (command) {
+    case "meffort":
+      const targets = Array.from(game.user.targets);
+      const formula = message.replace(/\/me(?:ffort)?/, "").trim();
+
+      zundercuckEffort(formula, targets, true);
+
+      return false;
+  }
+
+  return true;
+});
+
 //initiative command
 Hooks.on("chatMessage", (chatlog, message) => {
   let [command, m] = parse(message);
@@ -166,7 +183,7 @@ function getAttributeValue(actor, attribute) {
   return attr ? attr.value : 0;
 }
 
-function zundercuckEffort (formula, targets, targetActor=null) {
+function zundercuckEffort (formula, targets, isMagic=false, targetActor=null) {
   const rollMode = game.settings.get("core", "rollMode");
   const roll = zundercuckRoll(formula, {rollMode: rollMode, targetActor: targetActor, display: true});
   let end = "";
@@ -212,7 +229,7 @@ function zundercuckEffort (formula, targets, targetActor=null) {
   }
 
   targets.forEach(target => {
-    let totalDamage = roll.total - target.actor.data.data.armor.value;
+    let totalDamage = roll.total - (isMagic ? target.actor.data.data.magicarmor.value : target.actor.data.data.armor.value);
     let tempDamage = Math.min(target.actor.data.data.health.temp, totalDamage);
     let hpDamage = totalDamage - tempDamage;
 
@@ -361,6 +378,7 @@ function parse(message) {
   const sr = '^(\\/s(?:elf)?r(?:oll)? )';   // Self rolls, support /sr or /sroll
   const initiative = '^(\\/i(?:nitiative)?\S*)';
   const effort = '^(\\/e(?:ffort)? )';
+  const meffort = '^(\\/me(?:ffort)? )';
   const attack = '^(\\/a(?:ttack)? )';
   const any = '([^]*)';                     // Any character, including new lines
   const word = '\\S+';
@@ -372,6 +390,7 @@ function parse(message) {
     "blindroll": new RegExp(br+formula, 'i'),
     "selfroll": new RegExp(sr+formula, 'i'),
     "effort": new RegExp(effort+formula, 'i'),
+    "meffort": new RegExp(meffort+formula, 'i'),
     "attack": new RegExp(attack+formula, 'i'),
     "initiative": new RegExp(initiative+formula, 'i'),
     "ic": new RegExp('^(\/ic )'+any, 'i'),

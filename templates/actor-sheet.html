@@ -43,9 +43,15 @@
                 </div>
             </div>
 
-            <div class="stat" style="flex: 1.63">
-                <span>Armor</span>
-                <input class="input-large" type="text" name="data.armor.value" value="{{data.armor.value}}" data-dtype="Number"/>
+            <div class="stat" style="flex: 1.63; display: flex; flex-direction: row;">
+                <div class="stat">
+                    <span style="place-self: flex-end; margin-right: 1px;">Armor</span>
+                    <input class="input-large" type="text" style="place-self: flex-end;" name="data.armor.value" value="{{data.armor.value}}" data-dtype="Number"/>
+                </div>
+                <div class="stat">
+                    <span style="place-self: flex-start; margin-left: 10px;">Magic Armor</span>
+                    <input class="input-large" type="text" style="place-self: flex-start; margin-left: 28px;" name="data.magicarmor.value" value="{{data.magicarmor.value}}" data-dtype="Number"/>
+                </div>
             </div>
 
             <div class="stat" style="flex: 1.63">
